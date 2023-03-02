@@ -1,7 +1,11 @@
 import { hex2rgb, lab2rgb, rgb2hex, rgb2lab } from "./color";
 import { ColorPaletteKeys, ColorPercent, generateColorCodeKey } from "./type";
 
-export const generateColorPalette = <T extends string>(name: T, colorCode: string): Record<ColorPaletteKeys<T>, string> => {
+export const generateColorPalette = <T extends string>(
+  name: T,
+  colorCode: string,
+  reverse?: boolean
+): Record<ColorPaletteKeys<T>, string> => {
   const rgb = hex2rgb(colorCode);
   if (!rgb) {
     throw new Error(`Color code is not vaild: ${colorCode}`);
@@ -12,7 +16,7 @@ export const generateColorPalette = <T extends string>(name: T, colorCode: strin
   return ColorPercent.reduce(
     (acc, cur) => ({
       ...acc,
-      [generateColorCodeKey(name, cur)]: rgb2hex(lab2rgb({ L: L + L * (1 - 2 * (cur / 1000)), A, B })),
+      [generateColorCodeKey(name, cur)]: rgb2hex(lab2rgb({ L: L + (reverse ? -1 : 1) * L * (1 - 2 * (cur / 1000)), A, B })),
     }),
     {
       [name]: rgb2hex(rgb),
