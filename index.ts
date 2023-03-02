@@ -1,4 +1,7 @@
 export { generateColorPalette } from "./utils/palette";
-export * as color from "./utils/color";
-export * as adjustment from "./utils/adjustment";
-export * as type from "./utils/type";
+
+import * as ColorCode from "./utils/color";
+import * as ColorAdjustment from "./utils/adjustment";
+import * as ColorType from "./utils/type";
+
+export { ColorAdjustment, ColorCode, ColorType };
