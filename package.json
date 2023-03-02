@@ -1,0 +1,23 @@
+{
+  "name": "color-token",
+  "version": "1.0.0",
+  "description": "generate color token with javascript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xlethe/color-token-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0xlethe/color-token-js/issues"
+  },
+  "homepage": "https://github.com/0xlethe/color-token-js#readme",
+  "dependencies": {
+    "typescript": "^4.9.5"
+  }
+}
