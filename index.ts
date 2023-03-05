@@ -1,4 +1,4 @@
-export { generateColorPalette } from "./utils/palette";
+export { generateColorPalette, createTonalPalettes } from "./utils/palette";
 
 import * as ColorCode from "./utils/color";
 import * as ColorAdjustment from "./utils/adjustment";
