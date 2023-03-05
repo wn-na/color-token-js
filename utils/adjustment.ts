@@ -1,4 +1,4 @@
-import { hex2rgb, hsl2hex, rgb2hsl } from "./color";
+import { hex2rgb, hsl2hex, rgb2hex, rgb2hsl } from "./color";
 import { ColorCalcute, ColorCalcuteOption, getHexColorCode } from "./type";
 import { convertNumToHex, isRange } from "./utils";
 /**
@@ -60,4 +60,16 @@ function blendColors(colorA: string, colorB: string, percent: number, option?: C
   return `#${convertNumToHex(R)}${convertNumToHex(G)}${convertNumToHex(B)}`;
 }
 
-export { brightness, blendColors, opacity };
+/**
+ * @param rgb hex code like `#cdcdcd` or `cdcdcd`
+ * @returns change gray color to rgb format `#cdcdcd`
+ */
+function gray(rgb: string): string | undefined {
+  const hex = hex2rgb(rgb);
+  if (!hex) return undefined;
+
+  const gray = 0.2989 * hex.R + 0.5866 * hex.G + 0.1145 * hex.B;
+  return rgb2hex({ R: gray, G: gray, B: gray });
+}
+
+export { brightness, blendColors, opacity, gray };

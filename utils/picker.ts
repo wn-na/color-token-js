@@ -1,4 +1,4 @@
-import { hex2rgb } from "./color";
+import { hex2rgb, rgb2hsl, rgb2yiq, rgb2yuv } from "./color";
 
 /**
  *
@@ -11,5 +11,33 @@ export const brightness = (code: string) => {
   const rgb = hex2rgb(code);
   if (!rgb) return undefined;
 
-  return (rgb.R / 255.0) * 0.3 + (rgb.G / 255.0) * 0.59 + (rgb.B / 255.0) * 0.11;
+  return rgb2yuv(rgb).Y;
+};
+
+/**
+ *
+ * @param rgb hex code like `#cdcdcd` or `cdcdcd`
+ * @returns return color luminance
+ *
+ * - notice: use `YIQ` color model
+ */
+export const luminance = (code: string) => {
+  const rgb = hex2rgb(code);
+  if (!rgb) return undefined;
+
+  return rgb2yiq(rgb).Y;
+};
+
+export const saturation = (code: string) => {
+  const rgb = hex2rgb(code);
+  if (!rgb) return undefined;
+
+  return rgb2hsl(rgb).S;
+};
+
+export const intensity = (code: string) => {
+  const rgb = hex2rgb(code);
+  if (!rgb) return undefined;
+
+  return rgb2hsl(rgb).L;
 };

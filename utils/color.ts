@@ -1,7 +1,18 @@
-import { HSLValue, RGBValue, LABValue, ColorCalcuteOption, ColorCalcute, getHexColorCode } from "./type";
+import {
+  HSLValue,
+  RGBValue,
+  LABValue,
+  ColorCalcuteOption,
+  ColorCalcute,
+  getHexColorCode,
+  CMYKValue,
+  YIQValue,
+  YUVValue,
+  YCbCrValue,
+} from "./type";
 import { convertNumToHex, rangeElseDefault } from "./utils";
 
-export function hsl2rgb({ H: h, S: s, L: l }: HSLValue, option?: ColorCalcuteOption): RGBValue {
+export function hsl2rgb({ H: h, S: s, L: l }: HSLValue): RGBValue {
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const hp = h / 60.0;
   const x = c * (1 - Math.abs((hp % 2) - 1));
@@ -24,14 +35,14 @@ export function hsl2rgb({ H: h, S: s, L: l }: HSLValue, option?: ColorCalcuteOpt
     rgb1 = [c, 0, x];
   }
   return {
-    R: ColorCalcute(option)(255 * (rgb1[0] + m)),
-    G: ColorCalcute(option)(255 * (rgb1[1] + m)),
-    B: ColorCalcute(option)(255 * (rgb1[2] + m)),
+    R: 255 * (rgb1[0] + m),
+    G: 255 * (rgb1[1] + m),
+    B: 255 * (rgb1[2] + m),
   };
 }
 
 export function hsl2hex({ H, S, L }: HSLValue, option?: ColorCalcuteOption): string {
-  const rgb = hsl2rgb({ H, S, L }, option);
+  const rgb = hsl2rgb({ H, S, L });
   return rgb2hex(rgb, option);
 }
 
@@ -66,7 +77,7 @@ export function hex2rgb(hex: string): RGBValue | undefined {
   return { R, G, B };
 }
 
-export function lab2rgb({ L, A, B }: LABValue, option?: ColorCalcuteOption): RGBValue {
+export function lab2rgb({ L, A, B }: LABValue): RGBValue {
   let y = (L + 16) / 116;
   let x = A / 500 + y;
   let z = y - B / 200;
@@ -84,9 +95,9 @@ export function lab2rgb({ L, A, B }: LABValue, option?: ColorCalcuteOption): RGB
   b = b > 0.0031308 ? 1.055 * Math.pow(b, 1 / 2.4) - 0.055 : 12.92 * b;
 
   return {
-    R: ColorCalcute(option)(rangeElseDefault(0, 1, r) * 255),
-    G: ColorCalcute(option)(rangeElseDefault(0, 1, g) * 255),
-    B: ColorCalcute(option)(rangeElseDefault(0, 1, b) * 255),
+    R: rangeElseDefault(0, 1, r) * 255,
+    G: rangeElseDefault(0, 1, g) * 255,
+    B: rangeElseDefault(0, 1, b) * 255,
   };
 }
 
@@ -114,4 +125,64 @@ export function rgb2hex({ R, G, B }: RGBValue, option?: ColorCalcuteOption): str
   return `#${convertNumToHex(ColorCalcute(option)(R))}${convertNumToHex(ColorCalcute(option)(G))}${convertNumToHex(
     ColorCalcute(option)(B)
   )}`;
+}
+
+export function rgb2cmyk({ R, G, B }: RGBValue): CMYKValue {
+  R = R / 255;
+  G = G / 255;
+  B = B / 255;
+  const K = 1 - Math.max(R, G, B);
+  const C = (1 - R - K) / (1 - K);
+  const M = (1 - G - K) / (1 - K);
+  const Y = (1 - B - K) / (1 - K);
+  return { C, M, Y, K };
+}
+
+export function cmyk2rgb({ C, M, Y, K }: CMYKValue): RGBValue {
+  const R = (1 - C) * (1 - K) * 255;
+  const G = (1 - M) * (1 - K) * 255;
+  const B = (1 - Y) * (1 - K) * 255;
+  return { R, G, B };
+}
+
+export function rgb2yiq({ R, G, B }: RGBValue): YIQValue {
+  const Y = 0.299 * R + 0.587 * G + 0.114 * B;
+  const I = 0.596 * R - 0.274 * G - 0.322 * B;
+  const Q = 0.211 * R - 0.523 * G + 0.312 * B;
+  return { Y, I, Q };
+}
+
+export function yiq2rgb({ Y, I, Q }: YIQValue): RGBValue {
+  const R = 1.0 * Y + 0.956 * I + 0.621 * Q;
+  const G = 1.0 * Y - 0.273 * I - 0.647 * Q;
+  const B = 1.0 * Y - 1.104 * I + 1.701 * Q;
+  return { R, G, B };
+}
+
+export function rgb2yuv({ R, G, B }: RGBValue): YUVValue {
+  const Y = 0.257 * R + 0.504 * G + 0.098 * B + 16;
+  const U = -1 * (0.148 * R) - 0.291 * G + 0.439 * B + 128;
+  const V = 0.439 * R - 0.368 * G - 0.071 * B + 128;
+  return { Y, U, V };
+}
+
+export function yuv2rgb({ Y, U, V }: YUVValue): RGBValue {
+  const R = 1.164 * (Y - 16) + 1.596 * (V - 128);
+  const G = 1.164 * (Y - 16) - 0.813 * (V - 128) - 0.391 * (U - 128);
+  const B = 1.164 * (Y - 16) + 2.018 * (U - 128);
+  return { R, G, B };
+}
+
+export function rgb2ycbcr({ R, G, B }: RGBValue): YCbCrValue {
+  const Y = 0.299 * R + 0.587 * G + 0.114 * B;
+  const Cb = -1 * 0.16874 * R - 0.33126 * G + 0.5 * B;
+  const Cr = 0.5 * R - 0.41869 * G - 0.0813 * B;
+  return { Y, Cb, Cr };
+}
+
+export function ycbcr2rgb({ Y, Cb, Cr }: YCbCrValue): RGBValue {
+  const R = 1.0 * Y + 1.402 * Cr;
+  const G = 1.0 * Y - 0.34424 * Cb - 0.71414 * Cr;
+  const B = 1.0 * Y + 1.772 * Cb;
+  return { R, G, B };
 }

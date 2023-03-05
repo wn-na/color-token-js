@@ -1,7 +1,7 @@
 {
   "name": "color-token",
   "version": "1.0.3",
-  "description": "generate color token with javascript",
+  "description": "simple tonal palettes generator with javascript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

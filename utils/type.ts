@@ -18,7 +18,32 @@ export type LABValue = {
   B: number;
 };
 
-export const TonalPalettes = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
+export type CMYKValue = {
+  C: number;
+  M: number;
+  Y: number;
+  K: number;
+};
+
+export type YIQValue = {
+  Y: number;
+  I: number;
+  Q: number;
+};
+
+export type YUVValue = {
+  Y: number;
+  U: number;
+  V: number;
+};
+
+export type YCbCrValue = {
+  Y: number;
+  Cb: number;
+  Cr: number;
+};
+
+export const TonalPalettes = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const;
 export type TonalPalette = typeof TonalPalettes;
 
 export type TonalPaletteCode<T extends string, U extends string | number> = `${T}${U}`;
