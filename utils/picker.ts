@@ -34,10 +34,3 @@ export const saturation = (code: string) => {
 
   return rgb2hsl(rgb).S;
 };
-
-export const intensity = (code: string) => {
-  const rgb = hex2rgb(code);
-  if (!rgb) return undefined;
-
-  return rgb2hsl(rgb).L;
-};
