@@ -28,6 +28,13 @@ export const luminance = (code: string) => {
   return rgb2yiq(rgb).Y;
 };
 
+/**
+ *
+ * @param rgb hex code like `#cdcdcd` or `cdcdcd`
+ * @returns return color saturation
+ *
+ * - notice: use `HSL` color model
+ */
 export const saturation = (code: string) => {
   const rgb = hex2rgb(code);
   if (!rgb) return undefined;
