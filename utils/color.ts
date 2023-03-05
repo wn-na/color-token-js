@@ -115,10 +115,3 @@ export function rgb2hex({ R, G, B }: RGBValue, option?: ColorCalcuteOption): str
     ColorCalcute(option)(B)
   )}`;
 }
-
-export const extractBrightness = (code: string) => {
-  const rgb = hex2rgb(code);
-  if (!rgb) return undefined;
-
-  return (rgb.R / 255.0) * 0.3 + (rgb.G / 255.0) * 0.59 + (rgb.B / 255.0) * 0.11;
-};
