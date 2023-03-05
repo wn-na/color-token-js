@@ -11,6 +11,8 @@ const colorPalette = generateColorPalette("gray", "#cdcdcd");
 
 console.log(colorPalette.gray500);
 ```
+![image](https://user-images.githubusercontent.com/37437842/222950539-f7b7e1c5-e0b3-40fe-a043-1071e90af1c8.png)
+
 
 ## Utils
 
