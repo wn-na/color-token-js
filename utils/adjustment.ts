@@ -32,9 +32,9 @@ function brightness(rgb: string, range: number, option?: ColorCalcuteOption): st
   if (!hex) return undefined;
   if (!isRange(-1, 1, range)) return undefined;
 
-  const value = 0.5 * range + 0.5;
   const hsl = rgb2hsl(hex);
-  hsl.L = Math.max(0, Math.min(value, 1));
+  const value = range >= 0 ? (1 - hsl.L) * range : range * hsl.L;
+  hsl.L = Math.max(0, Math.min(value + hsl.L, 1));
   return hsl2hex(hsl, option);
 }
 
