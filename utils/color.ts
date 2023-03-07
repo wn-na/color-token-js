@@ -63,7 +63,7 @@ export function rgb2hsl({ R, G, B }: RGBValue): HSLValue {
   }
   const L = (min + max) / 2;
   const S = d === 0 ? 0 : d / (1 - Math.abs(2 * L - 1));
-  return { H: h * 60, S, L };
+  return { H: d == 0 ? 0 : h * 60, S, L };
 }
 
 export function hex2rgb(hex: string): RGBValue | undefined {
