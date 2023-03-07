@@ -20,7 +20,7 @@ const opacity = (rgb: string, alpha: number, option?: ColorCalcuteOption): strin
 
 /**
  * @param rgb hex code like `#cdcdcd` or `cdcdcd`
- * @param range `-1 ~ 1`
+ * @param range `0 ~ 1`
  * @param option (optional) select mode in calculate alpha value 'floor' | 'ceil' | 'round'
  *
  *  - default `floor`
@@ -30,7 +30,7 @@ const opacity = (rgb: string, alpha: number, option?: ColorCalcuteOption): strin
 function brightness(rgb: string, range: number, option?: ColorCalcuteOption): string | undefined {
   const hex = hex2rgb(rgb);
   if (!hex) return undefined;
-  if (!isRange(-1, 1, range)) return undefined;
+  if (!isRange(0, 1, range)) return undefined;
 
   const hsl = rgb2hsl(hex);
   hsl.L = range;
